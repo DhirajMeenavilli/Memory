@@ -11,6 +11,8 @@ image6 = pygame.image.load('image6.bmp')
 image7 = pygame.image.load('image7.bmp')
 image8 = pygame.image.load('image8.bmp')
 
+image = [image1,image2,image3,image4,image5,image6,image7,image8]
+
 pos = {1: (0,0),
        2: (100,0),
        3: (200,0),
@@ -75,24 +77,10 @@ class Game:
         # === game specific objects
         self.score = 0
         self.randoms = []
+        self.images = []
         for i in range(16):
             self.randoms.append(Tile(pos[i+1][0],pos[i+1][1],image0))
-        self.tile1 = Tile(pos[choice[0]][0], pos[choice[0]][1], image1)
-        self.tile2 = Tile(pos[choice[1]][0], pos[choice[1]][1], image2)
-        self.tile3 = Tile(pos[choice[2]][0], pos[choice[2]][1], image3)
-        self.tile4 = Tile(pos[choice[3]][0], pos[choice[3]][1], image4)
-        self.tile5 = Tile(pos[choice[4]][0], pos[choice[4]][1], image5)
-        self.tile6 = Tile(pos[choice[5]][0], pos[choice[5]][1], image6)
-        self.tile7 = Tile(pos[choice[6]][0], pos[choice[6]][1], image7)
-        self.tile8 = Tile(pos[choice[7]][0], pos[choice[7]][1], image8)
-        self.tile9 = Tile(pos[choice[8]][0], pos[choice[8]][1], image1)
-        self.tile10 = Tile(pos[choice[9]][0], pos[choice[9]][1], image2)
-        self.tile11 = Tile(pos[choice[10]][0], pos[choice[10]][1], image3)
-        self.tile12 = Tile(pos[choice[11]][0], pos[choice[11]][1], image4)
-        self.tile13 = Tile(pos[choice[12]][0], pos[choice[12]][1], image5)
-        self.tile14 = Tile(pos[choice[13]][0], pos[choice[13]][1], image6)
-        self.tile15 = Tile(pos[choice[14]][0], pos[choice[14]][1], image7)
-        self.tile16 = Tile(pos[choice[15]][0], pos[choice[15]][1], image8)
+            self.images.append(Tile(pos[choice[i]][0],pos[choice[i]][1],image[i%8]))
         self.max_frames = 150
         self.frame_counter = 0
 
@@ -120,8 +108,9 @@ class Game:
 
         pressed = pygame.mouse.get_pressed()
         popped = []
-
+        clicked = 0
         if pressed[0] == 1:
+            clicked += 1
             for i in range(len(self.randoms)):
                 if pygame.mouse.get_pos()[0] > self.randoms[i].x and pygame.mouse.get_pos()[0] < self.randoms[i].x + 100:
                     if pygame.mouse.get_pos()[1] > self.randoms[i].y and pygame.mouse.get_pos()[1] < self.randoms[i].y + 100:
@@ -137,55 +126,9 @@ class Game:
         # - self is the Game to draw
 
         self.surface.fill(self.bg_color)  # clear the display surface first
-
-        name1,pos1 = self.tile1.draw()
-        self.surface.blit(name1,pos1)
-
-        name2,pos2 = self.tile2.draw()
-        self.surface.blit(name2,pos2)
-
-        name3,pos3 = self.tile3.draw()
-        self.surface.blit(name3,pos3)
-
-        name4,pos4 = self.tile4.draw()
-        self.surface.blit(name4,pos4)
-
-        name5,pos5 = self.tile5.draw()
-        self.surface.blit(name5,pos5)
-
-        name6,pos6 = self.tile6.draw()
-        self.surface.blit(name6,pos6)
-
-        name7,pos7 = self.tile7.draw()
-        self.surface.blit(name7,pos7)
-
-        name8,pos8 = self.tile8.draw()
-        self.surface.blit(name8,pos8)
-
-        name9,pos9 = self.tile9.draw()
-        self.surface.blit(name9,pos9)
-
-        name10,pos10 = self.tile10.draw()
-        self.surface.blit(name10,pos10)
-
-        name11,pos11 = self.tile11.draw()
-        self.surface.blit(name11,pos11)
-
-        name12,pos12 = self.tile12.draw()
-        self.surface.blit(name12,pos12)
-
-        name13,pos13 = self.tile13.draw()
-        self.surface.blit(name13,pos13)
-
-        name14,pos14 = self.tile14.draw()
-        self.surface.blit(name14,pos14)
-
-        name15,pos15 = self.tile15.draw()
-        self.surface.blit(name15,pos15)
-
-        name16,pos16 = self.tile16.draw()
-        self.surface.blit(name16,pos16)
-
+        for i in range(len(self.images)):
+            nameI,posI = self.images[i].draw()
+            self.surface.blit(nameI,posI)
         for i in range(len(self.randoms)):
             nameR,posR = self.randoms[i].draw()
             self.surface.blit(nameR,posR)
