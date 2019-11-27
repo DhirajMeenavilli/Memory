@@ -1,3 +1,9 @@
+"""
+Date: November,26,2019
+Authour: Dhiraj Meenavilli
+Title: Memory V2
+"""
+
 import pygame
 import random
 
@@ -12,6 +18,8 @@ image7 = pygame.image.load('image7.bmp')
 image8 = pygame.image.load('image8.bmp')
 
 image = [image1,image2,image3,image4,image5,image6,image7,image8]
+
+start = pygame.time.get_ticks()
 
 pos = {1: (0,0),
        2: (100,0),
@@ -90,6 +98,7 @@ class Game:
 
         while not self.close_clicked:  # until player clicks close box
             # play frame
+            self.seconds = (pygame.time.get_ticks() - start) / 1000
             self.handle_events()
             self.draw()
             if self.continue_game:
@@ -116,7 +125,8 @@ class Game:
                     if pygame.mouse.get_pos()[1] > self.randoms[i].y and pygame.mouse.get_pos()[1] < self.randoms[i].y + 100:
                         popped.append(i)
 
-        self.score += len(popped)
+        if len(self.randoms) > 0:
+            self.score = int(self.seconds//1)
 
         for i in range(len(popped)):
             self.randoms.pop(popped[i])
